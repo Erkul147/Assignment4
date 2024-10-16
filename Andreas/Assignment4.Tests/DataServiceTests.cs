@@ -30,7 +30,7 @@ public class DataServiceTests
     }
 
     [Fact]
-    public void CreateCategory_ValidData_CreteCategoryAndReturnsNewObject()
+    public void CreateCategory_ValidData_CreateCategoryAndReturnsNewObject()
     {
         var service = new DataService();
         var category = service.CreateCategory("Test", "CreateCategory_ValidData_CreteCategoryAndReturnsNewObject");
