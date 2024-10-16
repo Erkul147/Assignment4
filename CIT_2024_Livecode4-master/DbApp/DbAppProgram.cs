@@ -15,8 +15,6 @@ var dataservice = new DataService();
 
 PrintProducts(dataservice);
 
-
-
 static void PrintProducts(IDataService dataService)
 {
     foreach (var e in dataService.GetProducts())

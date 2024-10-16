@@ -1,10 +1,7 @@
 ﻿
 using Npgsql;
 
-
-
-var connectionString = "host=localhost;db=northwind;uid=bulskov;pwd=henrik";
-
+var connectionString = "host=localhost;db=Northwind;uid=postgres;pwd=Say67krk#";
 
 using var connection = new NpgsqlConnection(connectionString);
 connection.Open();
@@ -18,5 +15,5 @@ using var reader = cmd.ExecuteReader();
 
 while(reader.Read())
 {
-    Console.WriteLine(reader.GetInt32(0));
+    Console.WriteLine($"Id={ reader.GetInt32(ordinal: 0)}, Name={reader.GetString(ordinal: 1)}");
 }
