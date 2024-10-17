@@ -9,12 +9,12 @@ namespace DataLayer;
 public interface IDataService
 {
     // Category
-    int CreateCategory(string name, string description);
+    Category CreateCategory(string name, string description);
     IList<Category> GetCategories();
 
     Category GetCategory(int id);
     
-    Category UpdateCategory(int id, string name, string description);
+    bool UpdateCategory(int id, string name, string description);
 
     bool DeleteCategory(int id);
 
