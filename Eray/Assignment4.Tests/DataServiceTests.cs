@@ -113,7 +113,7 @@ public class DataServiceTests
         Assert.Equal("Chai", product.Name);
         Assert.Equal("Beverages", product.CategoryName);
     }
-#if run
+
 
     [Fact]
     public void GetProductsByCategory_ValidId_ReturnsProductWithCategory()
@@ -150,6 +150,7 @@ public class DataServiceTests
         Assert.Null(order.ShipCity);
     }
 
+
     [Fact]
     public void GetOrder_ValidId_ReturnsCompleteOrder()
     {
@@ -183,6 +184,7 @@ public class DataServiceTests
         Assert.Equal(0.0, orderDetails.Discount);
     }
 
+
     [Fact]
     public void GetOrderDetailByOrderId_ValidId_ReturnsProductNameUnitPriceAndQuantity()
     {
@@ -205,6 +207,6 @@ public class DataServiceTests
         Assert.Equal(14, orderDetails.First().UnitPrice);
         Assert.Equal(12, orderDetails.First().Quantity);
     }
-#endif
+
 
 }

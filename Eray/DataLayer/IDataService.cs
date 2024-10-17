@@ -23,15 +23,15 @@ public interface IDataService
     // Product
     IList<Product> GetProducts();
     Product GetProduct(int id);
-    Product GetProductByCategory(int id);
-    Product GetProductByName(string name);
+    IList<Product> GetProductByCategory(int id);
+    IList<Product> GetProductByName(string name);
 
 
     // Orders
     Order GetOrder(int id);
     IList<Order> GetOrders();
-    OrderDetails GetOrderDetailsByOrderId(int id);
-    OrderDetails GetOrderDetailsByProductId(int id);
+    IList<OrderDetails> GetOrderDetailsByOrderId(int id);
+    IList<OrderDetails> GetOrderDetailsByProductId(int id);
 
     
 
