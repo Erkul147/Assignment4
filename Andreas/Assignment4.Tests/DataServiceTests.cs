@@ -12,6 +12,7 @@ public class DataServiceTests
         Assert.Null(category.Description);
     }
 
+
     [Fact]
     public void GetAllCategories_NoArgument_ReturnsAllCategories()
     {
@@ -53,6 +54,7 @@ public class DataServiceTests
         Assert.Null(category);
     }
 
+
     [Fact]
     public void DeleteCategory_InvalidId_ReturnsFalse()
     {
@@ -60,6 +62,7 @@ public class DataServiceTests
         var result = service.DeleteCategory(-1);
         Assert.False(result);
     }
+
 
     [Fact]
     public void UpdateCategory_NewNameAndDescription_UpdateWithNewValues()
@@ -110,6 +113,7 @@ public class DataServiceTests
         Assert.Equal("Beverages", product.CategoryName);
     }
 
+
     [Fact]
     public void GetProductsByCategory_ValidId_ReturnsProductWithCategory()
     {
@@ -121,15 +125,16 @@ public class DataServiceTests
         Assert.Equal("Lakkalikööri", products.Last().Name);
     }
 
+
     [Fact]
     public void GetProduct_NameSubString_ReturnsProductsThatMatchesTheSubString()
     {
         var service = new DataService();
         var products = service.GetProductByName("em");
         Assert.Equal(4, products.Count);
-        Assert.Equal("NuNuCa Nuß-Nougat-Creme", products.First().ProductName);
+        Assert.Equal("NuNuCa Nuß-Nougat-Creme", products.First().Name); // should this be .Name instead of .ProductName ??? name is product name????
         Assert.Equal("Confections", products.First().CategoryName);
-        Assert.Equal("Flotemysost", products.Last().ProductName);
+        Assert.Equal("Flotemysost", products.Last().Name); // ask henrik
     }
 
     /* orders */
@@ -155,6 +160,7 @@ public class DataServiceTests
         Assert.Equal("Dairy Products", order.OrderDetails?.First().Product?.Category?.Name);
     }
 
+
     [Fact]
     public void GetOrders()
     {
@@ -162,7 +168,6 @@ public class DataServiceTests
         var orders = service.GetOrders();
         Assert.Equal(830, orders.Count);
     }
-
 
     /* order details */
     [Fact]

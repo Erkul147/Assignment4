@@ -9,29 +9,29 @@ namespace DataLayer;
 public interface IDataService
 {
     // Category
-    int CreateCategory(string name, string description);
+    Category CreateCategory(string name, string description);
     IList<Category> GetCategories();
 
     Category GetCategory(int id);
     
-    Category UpdateCategory(int id, string name, string description);
+    bool UpdateCategory(int id, string name, string description);
 
     bool DeleteCategory(int id);
 
 
 
     // Product
-    IList<Product> GetProducts();
     Product GetProduct(int id);
-    Product GetProductByCategory(int id);
-    Product GetProductByName(string name);
+    IList<Product> GetProducts();
+    IList<Product> GetProductByCategory(int id);
+    List<Product> GetProductByName(string name);
 
 
     // Orders
     Order GetOrder(int id);
     IList<Order> GetOrders();
-    OrderDetails GetOrderDetailsByOrderId(int id);
-    OrderDetails GetOrderDetailsByProductId(int id);
+    IList<OrderDetails> GetOrderDetailsByOrderId(int id);
+    IList<OrderDetails> GetOrderDetailsByProductId(int id);
 
     
 
