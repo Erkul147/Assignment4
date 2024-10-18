@@ -67,44 +67,68 @@ public class DataService : IDataService
 
     public Order GetOrder(int id)
     {
-        throw new NotImplementedException();
+        var order = db.Orders
+                    .Include(x => x.OrderDetails)
+                    .ThenInclude(x => x.Product)
+                    .ThenInclude(x => x.Category)
+                    .FirstOrDefault(x => x.Id == id);
+        
+        if(order == null)
+        {
+            return null;
+
+        }
+        
+        return order;
     }
 
-    public OrderDetails GetOrderDetailsByOrderId(int id)
+    public IList<OrderDetails> GetOrderDetailsByOrderId(int id)
     {
-        throw new NotImplementedException();
+        var orderdetail = db.OrderDetails.Include(x => x.Product)
+                                         .Where(x => x.OrderId == id)
+                                         .ToList();
+        return orderdetail;
+
     }
 
-    public OrderDetails GetOrderDetailsByProductId(int id)
+    public IList<OrderDetails> GetOrderDetailsByProductId(int id)
     {
-        throw new NotImplementedException();
+        var orderdetail = db.Products.Include(x => x.OrderDetails)
+                                     .ThenInclude(x => x.Order)
+                                     .Where(x => x.Id == id)
+                                     .FirstOrDefault();
+        return orderdetail.OrderDetails;
+
     }
 
     public IList<Order> GetOrders()
     {
-        throw new NotImplementedException();
+        return db.Orders.ToList();
+
     }
 
     public Product GetProduct(int id)
     {
-        var product = db.Products.Find(id);
+        var product = db.Products
+            .Include(x => x.Category) 
+            .FirstOrDefault(x => x.Id == id);
 
-        if (product != null)
-        {
-            return product;
-        }
-        return null;
+        return product;
 
     }
 
-    public Product GetProductByCategory(int id)
+    public IList<Product> GetProductByCategory(int id)
     {
-        throw new NotImplementedException();
+        return db.Products.Include(x => x.Category)
+                          .Where(x => x.CategoryId == id)
+                          .ToList();
     }
 
-    public Product GetProductByName(string name)
+    public IList<Product> GetProductByName(string name)
     {
-        throw new NotImplementedException();
+        return db.Products.Include(x => x.Category)
+                          .Where(x => x.ProductName.Contains(name))
+                          .ToList();
     }
 
     public IList<Product> GetProducts()
