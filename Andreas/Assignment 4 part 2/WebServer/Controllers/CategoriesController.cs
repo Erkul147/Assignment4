@@ -7,18 +7,40 @@ namespace WebServer.Controllers;
 
 [ApiController]
 [Route("api/categories")]
-public class CategoriesControlle : ControllerBase
+public class CategoriesController : ControllerBase
 {
-    private readonly IDataService _dataService;
-    private readonly LinkGenerator _linkGenerator;
+    IDataService _dataService;
+    readonly LinkGenerator _linkGenerator;
 
-    public CategoriesControlle(
+    public CategoriesController(
         IDataService dataService,
         LinkGenerator linkGenerator)
     {
         _dataService = dataService;
         _linkGenerator = linkGenerator;
     }
+
+
+    [HttpPost]
+    public IActionResult CreateCategory(CreateCategoryModel model)
+    {
+        Console.WriteLine("create category");
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        var category = _dataService.CreateCategory(model.Name, model.Description);
+        Console.WriteLine("gogo cate " + category);
+        if (category == null)
+        {
+            return NotFound();
+        }
+
+
+        return Created("GetCategory", CreateCategoryModel(category));
+    }
+
     [HttpGet]
     public IActionResult GetCategories()
     {
@@ -41,6 +63,37 @@ public class CategoriesControlle : ControllerBase
         var model = CreateCategoryModel(category);
 
         return Ok(model);
+    }
+
+
+    [HttpPut("{id}")]
+    public IActionResult UpdateCategory(int id, CreateCategoryModel model)
+    {
+        Console.WriteLine("update category");
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        bool updated = _dataService.UpdateCategory(id, model.Name, model.Description);
+        if (!updated)
+        {
+            return NotFound();
+        }
+
+
+        return Ok(CreateCategoryModel(_dataService.GetCategory(id)));
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteCategory(int id)
+    {
+        var deleted = _dataService.DeleteCategory(id);
+        if (deleted)
+        { 
+            return Ok();
+        }
+        return NotFound();
     }
 
     private CategoryModel? CreateCategoryModel(Category? category)

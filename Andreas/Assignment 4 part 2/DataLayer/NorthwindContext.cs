@@ -56,10 +56,6 @@ internal class NorthwindContext : DbContext
         modelBuilder.Entity<Product>().Property(x => x.UnitsInStock).HasColumnName("unitsinstock");
         modelBuilder.Entity<Product>().Property(x => x.UnitPrice).HasColumnName("unitprice");
 
-        // need a category name (CHECK PAGE 432) 
-        modelBuilder.Entity<Product>().HasOne(c => c.Category)
-                                      .WithMany(c => c.Products)
-                                      .HasForeignKey (p => p.CategoryId);
 
         // need a category name (CHECK PAGE 432) 
         modelBuilder.Entity<Product>().HasMany(c => c.OrderDetails)

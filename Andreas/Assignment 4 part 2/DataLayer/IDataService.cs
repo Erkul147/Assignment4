@@ -23,8 +23,8 @@ public interface IDataService
     // Product
     Product GetProduct(int id);
     IList<Product> GetProducts();
-    IList<Product> GetProductByCategory(int id);
-    List<Product> GetProductByName(string name);
+    IList<Product>? GetProductByCategory(int id);
+    IList<Product> GetProductByName(string name);
 
 
     // Orders

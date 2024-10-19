@@ -5,10 +5,13 @@ namespace DataLayer;
 
 public class DataService : IDataService
 {
-
+    private NorthwindContext db;
+    public DataService()
+    {
+        db = new NorthwindContext();
+    }
     public Category CreateCategory(string name, string description)
     {
-        var db = new NorthwindContext();
         int new_id = db.Categories.Max(x => x.Id) + 1; // increment largest id by one to create the new
 
         Category newCategory = new Category()
@@ -21,13 +24,13 @@ public class DataService : IDataService
         db.Categories.Add(newCategory);
 
         db.SaveChanges();
+        Console.WriteLine("new category gogogogo");
 
         return newCategory;
     }
 
     public bool UpdateCategory(int id, string name, string description)
     {
-        var db = new NorthwindContext();
         var category = db.Categories.Find(id);
 
         if (category == null)
@@ -43,8 +46,8 @@ public class DataService : IDataService
     }
     public IList<Category>? GetCategories() // test 2
     {
-        var db = new NorthwindContext();
         List<Category> categories = db.Categories.ToList();
+        Console.WriteLine("get categories from db");
         if (categories == null)
         {
             return null;
@@ -54,14 +57,12 @@ public class DataService : IDataService
 
     public Category? GetCategory(int id)
     {
-        var db = new NorthwindContext();
         Category? category = db.Categories.Find(id);
         return category;
     }
 
     public bool DeleteCategory(int id)
     {
-        var db = new NorthwindContext();
         Category? categoryToDelete = db.Categories.Find(id);
         if (categoryToDelete != null)  // if it is not null then we can add it to database
         { 
@@ -75,32 +76,43 @@ public class DataService : IDataService
 
     public Product? GetProduct(int id)
     {
-        var db = new NorthwindContext();
+        try
+        {
         var product = db.Products
                         .Include(p => p.Category)
                         .Where(p => p.Id == id)
                         .First();
         return product;
+        } catch { }
+        return null;
     }
 
-    public IList<Product> GetProductByCategory(int id)
+    public IList<Product>? GetProductByCategory(int id)
     {
-        var db = new NorthwindContext();
-        IList<Product> products = db.Products.Include(p => p.Category).Where(x => x.CategoryId == id).ToList();
+        IList<Product> products = db.Products
+                                            .Include(p => p.Category)
+                                            .Where(x => x.CategoryId == id)
+                                            .ToList();
+        return products;
+    }
+
+    public IList<Product> GetProductByName(string productName)
+    {
+        IList<Product> products = db.Products
+                                        .Include(p => p.Category)
+                                        .Where(x => x.Name.Contains(productName)).ToList();
+
+       
+        if (products == null || products.Count() == 0)
+        {
+            return new List<Product>();
+        }
 
         return products;
     }
 
-    public List<Product> GetProductByName(string name)
-    {
-        var db = new NorthwindContext();
-        List<Product> product = db.Products.Include(p => p.Category).Where(x => x.Name.Contains(name)).ToList();
-        return product;
-    }
-
     public IList<Product> GetProducts()
     {
-        var db = new NorthwindContext();
         List<Product> products = db.Products.ToList();
         return products;
     }
@@ -109,7 +121,6 @@ public class DataService : IDataService
     public Order GetOrder(int id)
     {
 
-        var db = new NorthwindContext();
         var order = db.Orders.Include(x => x.OrderDetails)
                              .ThenInclude(od => od.Product)
                              .ThenInclude(p => p.Category)
@@ -126,7 +137,6 @@ public class DataService : IDataService
 
     public IList<OrderDetails> GetOrderDetailsByOrderId(int id)
     {
-        var db = new NorthwindContext();
         var order = db.Orders.Include(x => x.OrderDetails)
                              .ThenInclude(od => od.Product)
                              .ThenInclude(p => p.Category)
@@ -141,7 +151,6 @@ public class DataService : IDataService
 
     public IList<OrderDetails> GetOrderDetailsByProductId(int id)
     {
-        var db = new NorthwindContext();
         var product = db.Products.Include(x => x.OrderDetails)
                                  .ThenInclude(od => od.Order)  
                                  .Where(x => x.Id == id)
@@ -156,7 +165,6 @@ public class DataService : IDataService
 
     public IList<Order> GetOrders()
     {
-        var db = new NorthwindContext();
         var orders = db.Orders.Include(x => x.OrderDetails)
                               .ThenInclude(od => od.Product)
                               .ThenInclude(p => p.Category)

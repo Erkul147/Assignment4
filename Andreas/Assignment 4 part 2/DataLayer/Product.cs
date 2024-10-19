@@ -19,11 +19,13 @@ namespace DataLayer
         public int CategoryId  { get; set; }
 
         
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
-        public string CategoryName { get
+        public string? CategoryName 
+        { 
+            get
             {
-                return Category.Name;
+                return Category?.Name;
             } 
         }
 
