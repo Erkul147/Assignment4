@@ -1,3 +1,4 @@
+ï»¿using DataLayer;
 namespace Assignment4.Tests;
 
 public class DataServiceTests
@@ -30,7 +31,7 @@ public class DataServiceTests
     }
 
     [Fact]
-    public void CreateCategory_ValidData_CreateCategoryAndReturnsNewObject()
+    public void CreateCategory_ValidData_CreteCategoryAndReturnsNewObject()
     {
         var service = new DataService();
         var category = service.CreateCategory("Test", "CreateCategory_ValidData_CreteCategoryAndReturnsNewObject");
@@ -118,7 +119,7 @@ public class DataServiceTests
         Assert.Equal(12, products.Count);
         Assert.Equal("Chai", products.First().Name);
         Assert.Equal("Beverages", products.First().CategoryName);
-        Assert.Equal("Lakkalikööri", products.Last().Name);
+        Assert.Equal("Lakkalikï¿½ï¿½ri", products.Last().Name);
     }
 
     [Fact]
@@ -127,7 +128,7 @@ public class DataServiceTests
         var service = new DataService();
         var products = service.GetProductByName("em");
         Assert.Equal(4, products.Count);
-        Assert.Equal("NuNuCa Nuß-Nougat-Creme", products.First().ProductName);
+        Assert.Equal("NuNuCa Nuï¿½-Nougat-Creme", products.First().ProductName);
         Assert.Equal("Confections", products.First().CategoryName);
         Assert.Equal("Flotemysost", products.Last().ProductName);
     }
