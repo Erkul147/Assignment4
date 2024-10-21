@@ -47,6 +47,8 @@ public class CategoriesController : ControllerBase
         var categories = _dataService.GetCategories()
                                      .Select(x => CreateCategoryModel(x));
 
+        if (categories == null) return null;
+
         return Ok(categories);
     }
 
@@ -69,7 +71,6 @@ public class CategoriesController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult UpdateCategory(int id, CreateCategoryModel model)
     {
-        Console.WriteLine("update category");
         if (model == null)
         {
             return NotFound();
@@ -89,11 +90,11 @@ public class CategoriesController : ControllerBase
     public IActionResult DeleteCategory(int id)
     {
         var deleted = _dataService.DeleteCategory(id);
-        if (deleted)
+        if (!deleted)
         { 
-            return Ok();
+            return NotFound();
         }
-        return NotFound();
+        return Ok();
     }
 
     private CategoryModel? CreateCategoryModel(Category? category)

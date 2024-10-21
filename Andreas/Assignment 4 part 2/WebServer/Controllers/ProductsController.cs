@@ -31,6 +31,7 @@ public class ProductController : ControllerBase
         {
             return NotFound();
         }
+
         var model = CreateProductModel(product);
         return Ok(model);
     }
@@ -56,21 +57,15 @@ public class ProductController : ControllerBase
     public IActionResult GetProductsByContainsName([FromQuery] string name)
     {
         var products = _dataService.GetProductByName(name)
-                                            .Select(x => CreateProductModel(x));
+                                   .Select(x => CreateProductModel(x))
+                                   .ToList();
 
         if (products == null || products.Count() == 0)
         {
             return NotFound(products);
         }
 
-        Console.WriteLine("Query: " + name);
-        foreach (var item in products)
-        {
-            Console.WriteLine("productname: " + item.ProductName + " category " + item.CategoryName);
-        }
-        Console.WriteLine();
-
-        return Ok(products.ToList());
+        return Ok(products);
     }
 
     private ProductModel? CreateProductModel(Product? product)

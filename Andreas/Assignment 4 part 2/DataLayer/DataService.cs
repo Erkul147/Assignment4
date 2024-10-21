@@ -78,11 +78,12 @@ public class DataService : IDataService
     {
         try
         {
-        var product = db.Products
-                        .Include(p => p.Category)
-                        .Where(p => p.Id == id)
-                        .First();
-        return product;
+            var product = db.Products
+                            .Include(p => p.Category)
+                            .Where(p => p.Id == id)
+                            .First();
+            return product;
+
         } catch { }
         return null;
     }
